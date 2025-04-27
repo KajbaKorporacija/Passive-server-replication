@@ -1,0 +1,186 @@
+//	private void inviteServerFunctions(AccountServiceBlockingStub   blockingStub) {
+//		// Poziv AppServer-a preko gRPC-a
+//		int i;
+//		boolean flag=false;
+//		while(true) {
+//			System.out.println("1 poziv je ADD_TOPIC");
+//			System.out.println("2 poziv je ADD_COMMENT");
+//			System.out.println("3 poziv je Add_COMMENT_TO_COMMENT");
+//			System.out.println("4 poziv je DEL_COMMENT");
+//			System.out.println("5 poziv je UP_COMMENT");
+//			System.out.println("6 poziv je GET_TOPICS");
+//			System.out.println("7 poziv je GET_COMMENTS");
+//			System.out.println("8 je izlaz");
+//			i=sc.nextInt();
+//			switch(i) {
+//			  case 1:{
+//			    System.out.println("daj naslov Topic-a");
+//			    Topic topic=  Topic.newBuilder()
+//			    		.setText(sc.nextLine())
+//			    		.setUser(user)
+//			    		.build();
+//		        Request request = Request.newBuilder()
+//	        			.setRequestId(1)
+//	        			.setOpType(RequestType.ADD_TOPIC)
+//	        			.setTopic(topic)
+//	        			.build();
+//	        
+//	        Response response;
+//	        
+//	        synchronized(this) {
+//	       	response = blockingStub.sendNewTopic(request);
+//	        }
+//	   //     ispisResponse(response, request);
+//			   break;}
+//			  case 2:{
+//				  System.out.println("daj text Topic-a");
+//				    Topic topic=  Topic.newBuilder()
+//				    		.setText(sc.nextLine())
+//				    		.build();
+//				    
+//				    Comment comment=Comment.newBuilder()
+//				    		.setText(sc.nextLine())
+//				    		.setTimestamp(System.currentTimeMillis())
+//				    		.setUser(user)
+//				    		.setParentCommentId(0)
+//				    		.build();
+//				    
+//				    
+//			        Request request = Request.newBuilder()
+//		        			.setRequestId(2)
+//		        			.setOpType(RequestType.ADD_TOPIC)
+//		        			.setTopic(topic)
+//		        			.build();
+//		        
+//		        Response response;
+//		        
+//		        synchronized(this) {
+//		       	response = blockingStub.sendNewCommentToTopic(request);
+//		        }
+//				  break;
+//				  }
+//			  case 3:{
+//				  System.out.println("Napisi na koji Coment da odgovoris");
+//				    
+//				    
+//				  Comment comment=Comment.newBuilder()
+//				    		.setText(sc.nextLine())
+//				    		.build();
+//				    System.out.println("Napisi sta bi odgovorio");
+//				    Comment comment2=Comment.newBuilder()
+//				    		.setText(sc.nextLine())
+//				    		.setTimestamp(System.currentTimeMillis())
+//				    		.setUser(user)
+//				    		.build();
+//			        Request request = Request.newBuilder()
+//		        			.setRequestId(3)
+//		        			.setOpType(RequestType.Add_COMMENT_TO_COMMENT)
+//		        			.setComment(comment)
+//		        			.setComment2(comment2)
+//		        			.build();
+//		        
+//		        Response response;
+//		        
+//		        synchronized(this) {
+//		       	response = blockingStub.replyToComment(request);
+//		        }
+//		        
+//				  break;}
+//			  case 4:{
+//				  System.out.println("koji koment bi obrisao?");
+//				  Comment comment=Comment.newBuilder()
+//		    		.setText(sc.nextLine())
+//		    		.build();
+//	        Request request = Request.newBuilder()
+//      			.setRequestId(4)
+//      			.setOpType(RequestType.DEL_COMMENT)
+//      			.setComment(comment)
+//      			
+//      			.build();
+//      
+//      Response response;
+//      
+//      synchronized(this) {
+//     	response = blockingStub.deleteMyComment(request);
+//      }
+//				   break;
+//				   }
+//			  case 5:{
+//				  System.out.println("koji koment bi obrisao?");
+//				  Comment comment=Comment.newBuilder()
+//						  	.setText(sc.nextLine())
+//						  	.setTimestamp(System.currentTimeMillis())
+//				    		.setUser(user)
+//				    		.setParentCommentId(0)
+//				    		.build();
+//	        Request request = Request.newBuilder()
+//      			.setRequestId(5)
+//      			.setOpType(RequestType.UP_COMMENT)
+//      			.setComment(comment)
+//      			
+//      			.build();
+//      
+//      Response response;
+//      
+//      synchronized(this) {
+//     	response = blockingStub.updateMyComment(request);
+//      }
+//				   break;
+//				   }
+//			  case 6:
+//			  {
+//				  
+//	        Request request = Request.newBuilder()
+//      			.setRequestId(6)
+//      			.setOpType(RequestType.GET_TOPICS)
+//      			
+//      			.build();
+//      
+//      Iterator<Topic> response;
+//      
+//      synchronized(this) {
+//     	response = blockingStub.getTopicsList(request);
+//      }
+//      for (;response.hasNext();) {
+//      	Topic t = response.next();
+//      	ispisTema(t);
+//      }
+//				   break;
+//				   }
+//			  case 7:{
+//				  System.out.println("koji koment bi obrisao?");
+//				  Comment comment=Comment.newBuilder()
+//		    		.setText(sc.nextLine())
+//		    		.build();
+//	        Request request = Request.newBuilder()
+//      			.setRequestId(7)
+//      			.setOpType(RequestType.GET_COMMENTS)
+//      			.setComment(comment)
+//      			
+//      			.build();
+//      
+//      Iterator<Comment> response;
+//      
+//      synchronized(this) {
+//     	response = blockingStub.getTopicComments(request);
+//      }
+//      
+//        	ispisKomentara(response);
+//        
+//				   break;
+//				   }
+//			  case 8:
+//				  flag=true;
+//				  break;
+//				  
+//			  
+//			}
+//			
+//			if(flag)
+//				break;
+//				
+//			
+//			
+//		}
+//       
+//	}

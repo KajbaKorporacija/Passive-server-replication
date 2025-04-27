@@ -1,0 +1,1 @@
+java -cp nes123-0.0.1-SNAPSHOT.jar;.;lib/* ostalo.AppServer localhost:2181 8093 server3Log.log

@@ -1,0 +1,108 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "gRPCgenerisano";
+
+
+
+service AccountService {
+
+	rpc SendNewTopic(Request) returns (Response) {}
+	rpc SendNewCommentToTopic(Request) returns (Response) {}
+	rpc ReplyToComment(Request) returns (Response) {}
+	rpc UpdateMyComment(Request) returns (Response) {}
+	rpc DeleteMyComment(Request) returns (Response) {}
+	rpc GetTopicsList(Request) returns (stream Topic) {}
+	rpc GetTopicComments(Request) returns (stream Comment) {}
+	
+	rpc AppendLog(LogEntry) returns (LogResponse) {}
+	rpc GetLeaderInfo(LeaderRequest) returns (LeaderInfo){}
+
+}
+
+message Request {
+	int32 request_id = 1;
+	optional Topic topic = 2;
+	optional Comment comment=3;
+	optional Comment commentParrent=4;
+	RequestType op_type = 5;
+	optional string zamena=6;
+}
+enum RequestType {
+	ADD_TOPIC = 0;
+	ADD_COMMENT = 1;
+	DEL_COMMENT = 2;
+	UP_COMMENT=3;
+	GET_TOPICS=4;
+	GET_COMMENTS=5;
+	Add_COMMENT_TO_COMMENT=6;
+}
+
+
+message Podaci {
+  Comment comment=1;
+  string text =2;
+}
+
+message SendNewComment {
+  Comment comment=1;
+  Topic topic=2;
+}
+
+message komentari {
+  Comment parrentComment=1;
+  Comment childComment=2;
+}
+
+
+
+message Topic {
+	int32 topic_id = 1;
+	string text=2;
+	string user=3;
+	
+}
+message Comment {
+	int32 comment_id=1;
+	int32 parentCommentId = 2;
+	string text=3;
+	int32 topic_id=4;
+	string user=5;
+	int64 timestamp=6;
+}
+message Response {
+ 	RequestStatus status = 1;
+ 	int32 request_id = 2;
+	optional string message = 3;
+}
+enum RequestStatus {
+  STATUS_OK = 0;
+  UPDATE_REJECTED_NOT_LEADER = 1;
+  TEMA_NE_POSTOJI = 2;
+  KOMENTAR_NE_POSTOJI=3;
+  VREME_ZA_PROMENU_JE_PROSLO=4;
+  KOMENTAR_NIJE_IZBRISAN=5;
+  
+}
+message LogEntry {
+	uint64 entryAtIndex = 1;
+	bytes logEntryData = 2;
+}
+
+enum LogStatus {
+	LOG_OK = 0;
+	IO_ERROR = 1; 
+	LOG_HASNT_LAST_ENTRY = 2;
+}
+message LogResponse {
+	LogStatus status = 1;
+	uint64 entryAtIndex = 2;
+	optional uint64 lastEntryIndex = 3;
+}
+message Empty {}
+message LeaderRequest {}
+
+message LeaderInfo{
+	bool imLeader = 1;
+	string hostnamePort = 2;
+}

@@ -1,0 +1,1 @@
+java -cp grpcKlient.jar;.;lib/* ostalo.AppServer localhost:2181 809# server#Log.log
